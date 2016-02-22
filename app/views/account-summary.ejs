@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Rewards Demo</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>			
+		<div class="capitalone-logo">
+			<h1>
+				<img src="/img/capitalone-logo-2x-oasis.png" alt="Capital One" class="default-logo">
+			</h1>
+		</div>
+		<div id="logout">
+			<a onclick="logout()" id="header_signout_link" class="log_out">Sign Out</a>
+		</div>
+
+		<div id="main">
+			<div id="welcome">
+				<h2 id="welcome-msg">Click on an account to reveal more information.</h2>
+			</div>
+			<ul id="container">
+			</ul>
+		</div>
+		<script src="components/jquery/dist/jquery.min.js"></script>
+		<script src="components/jquery-timeago/jquery.timeago.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var detail_strings = [];
+			var summary_displayed =true;
+
+			$(function(){
+				var data= <%- JSON.stringify(data) %>
+				replaceAcctInfo(data);
+				
+			});
+
+			function replaceAcctInfo(data) {
+
+				var purchasingPower="";
+
+				for(i=0; i< data.length; i++){
+					var cash="";
+					var travel="";
+					var giftcard="";
+					var charity="";
+					var rewardsCurrency = data[i].rewardsCurrency;
+					var ifcash = ""
+					if(rewardsCurrency == "Cash") ifcash="$";
+
+					var acct='<li class="bricklet COF" id="'+i+'" onclick="toggle_display('+i+')"><h3><div class="Description">' + data[i].accountDisplayName.slice(0,-5) + '</div></h3><h4><div class="acct_num">XXXX-XXXX-XXXX-'+data[i].accountDisplayName.slice(-4)+'</div><div class="rewardsBalance">Balance: ' + ifcash + nwc(data[i].rewardsBalance) + ' ' + rewardsCurrency + '</div></h4><h5><span class="name">' + data[i].primaryAccountHolder.firstName + ' ' + data[i].primaryAccountHolder.lastName + '</span><span class="card_type">' + data[i].creditCardAccount.network + '</h5></li>';
+
+					for (x=0; x< data[i].redemptionOpportunities.length; x++){
+						purchasingPower="Purchasing Power";
+						var opp = data[i].redemptionOpportunities[x];
+						if(opp.category == 'Cash'){
+							if (cash == ""){
+								cash += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7">  </div> </div>';
+							}
+							cash += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> </div>';
+						}
+						else if(opp.category == 'Travel'){
+							if (travel == "" && x==0){
+									travel += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6"> Value </div> <div id="col-7"> ' + rewardsCurrency + ' or Rate </div> </div>';
+								} else if (travel == ""){
+									travel += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>';
+								}
+								//Tiered travel
+							if(opp.hasOwnProperty('tierMinCashValue')){
+									//All but the last tier
+								if(opp.hasOwnProperty('tierMaxCashValue')){
+										//First tier only
+									if(opp.tierMinCashValue=="0.01"){
+										travel += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
+
+									} else{
+										travel += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									}
+								} else {
+									travel += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to ' + opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+								}
+							} else{
+								travel += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+							}
+						}
+						else if(opp.category == 'GiftCard'){
+							if (giftcard == ""){
+								giftcard += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>'
+							}
+								//Tiered giftcard
+							if(opp.hasOwnProperty('tierMinCashValue')){
+									//All but the last tier
+								if(opp.hasOwnProperty('tierMaxCashValue')){
+										//First tier only
+									if(opp.tierMinCashValue=="0.01"){
+										giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									} else {
+										giftcard += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									}
+								} else {
+									giftcard += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to ' + opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+								}
+							} else{
+								giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+							}
+							//giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1/$' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+						}
+						else if(opp.category=='Charity'){
+						if (charity == ""){
+								charity += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7">  </div> </div>'
+							}
+							charity += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+						}
+					}
+					var date = new Date(data[i].balanceTimestamp);
+					var lastChecked = jQuery.timeago(date);
+
+					var acct_detail = '<li class="bricklet2 details" id="'+i+'" onclick="toggle_display('+i+')"><h3> <div id="Description"> ' + data[i].accountDisplayName.slice(0,-5) + ' </div> </h3> <h4> <div id="acct_num"> XXXX-XXXX-XXXX-'+data[i].accountDisplayName.slice(-4)+' </div> </h4> <h5> <div class="row"> <div id="col-1"> <ul> <li>Account Holder:</li> <li>Balance:</li> <li>Last Checked:</li> </ul> </div> <div id="col-2"> <ul> <li>'+ data[i].primaryAccountHolder.firstName + ' ' + data[i].primaryAccountHolder.lastName +'</li> <li>'+ ifcash + nwc(data[i].rewardsBalance) + ' ' + data[i].rewardsCurrency +'</li> <li>' + lastChecked + '</li> </ul> </div> <div id="col-3"> <ul> <li>Redemption Allowed:</li> <li>Transfer In Allowed:</li> <li>Transfer Out Allowed:</li> </ul> </div> <div id="col-4"> <ul> <li ' + img(data[i].canRedeem) +'</li> <li ' + img(data[i].canTransferIn) + '</li> <li '+ img(data [i].canTransferOut) + '</li> </ul> </div> </div> <div id="purchasing_power"> <h3>'+ purchasingPower + '</h3> </div> '+  travel + cash + giftcard + charity +' </h5></li>';
+					
+					$(acct).appendTo('#container');
+					detail_strings.push(acct_detail);
+				}
+
+				if (data.length > 0){
+					var name='<h1 class="page_title">Welcome ' + data[0].primaryAccountHolder.firstName + '</h1>';
+					$(name).insertBefore('#welcome');
+					$('#welcome-msg').fadeIn(1000);
+				} else {
+					var no_accts = 'You have no rewards accounts avaliable to display.';
+					$('#welcome-msg').html(no_accts);
+					$('#welcome-msg').fadeIn(1000);
+				}
+
+				$('.COF').fadeIn(1500);
+			};
+
+			function img(bool){
+				if(bool){
+					return 'class=check> &#10003'
+				} else {
+					return 'class=x> &#10005'
+				}
+			}
+
+			function toggle_display(id){
+
+				if(summary_displayed == true){
+					$('.COF').hide();
+					$(detail_strings[id]).appendTo('#container');
+					summary_displayed=false;
+					$('#welcome-msg').hide();
+				}
+				else{
+					$('.details').remove();
+					$('.COF').show();
+					$('#welcome-msg').show();
+					summary_displayed=true;
+				}
+			}
+
+			function nwc(x) {
+				return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+
+			function logout(){
+				$.ajax({
+				     async: false,
+				     type: 'GET',
+				     url: '/logout',
+				});
+				window.location.href = "/";
+			}
+			
+		</script>
+	</body>
+</html>
+
+<!--
+	File name: account-summary.ejs
+	Description: template html file for account summary page of external API reference application
+
+	Copyright 2016 Capital One Services, LLC
+	 
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	 
+	    http://www.apache.org/licenses/LICENSE-2.0
+	 
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and limitations under the License.
+-->

@@ -1,0 +1,23 @@
+{
+  "name": "rewards-ref-app-mvc",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "source",
+    "spec",
+    ".bowerrc",
+    ".gitignore",
+    ".jshintignore",
+    ".jshintrc",
+    "bower.json",
+    "gruntfile.js",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "jquery-timeago": "^1.5.2",
+    "jquery": "^2.2.0"
+  }
+}

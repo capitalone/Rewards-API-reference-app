@@ -1,0 +1,351 @@
+/*landing and display page*/
+body {
+    padding-left: 2%;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 960px;
+    min-width: 250px;
+    line-height: 1;
+    color: #333;
+    font-family: "Proxima Nova Regular", Arial, sans-serif;
+    background: url('/img/bg_body.png') repeat #f3f3f3;
+    font-size:12pt;
+}
+.capitalone-logo {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 1em;
+    width: 152px;
+    height: 45px;
+}
+
+.capitalone-logo img {
+    position: relative;
+    width: 100%;
+}
+
+
+/*landing page only*/
+#submit-button{
+    font-size:12px;
+}
+
+#login-button {
+    -webkit-appearance:none;
+    margin:auto;
+    display: block;
+    cursor: pointer;
+    background: #128020;
+    border: none;
+    border-radius: 3px;
+    padding: 0.75em 1em;
+    width: 100%;
+    color: #fff !important;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: none;
+    font-size: 1em;
+    font-family: "Proxima Nova Regular",Arial,Helvetica,sans-serif;
+    max-width: 250px;
+}
+#login-button:hover, #login-button:focus {
+    background: #004D00;
+    text-decoration: none;
+}
+
+#body {
+    text-align: center;
+}
+
+#footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#environment_select {
+    -webkit-appearance:none;
+    display: block;
+    width: calc(100% + 55px);
+    padding: 2px 23px 2px 2px;
+    border: 0;
+    background-color: transparent;
+    font-size: 16px;
+    color: #011728;
+    line-height: 1.5;
+    border-radius: 0;
+}
+
+#environment_select:focus {
+    outline: 0;
+}
+#form_select:focus {
+    border-color: #018BBB;
+}
+#form_select {
+    background: #fff url('/img/text-select.png') no-repeat 100% 50%;
+    border: 2px solid #CFCCCF;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    border-radius: 3px;
+    position: relative;
+    top: -2px;
+    padding: 2px 10px 2px 2px;}
+
+
+/*display page only*/
+
+#welcome-msg{
+    display:none;
+}
+
+h3{
+    font-weight:bold;
+    margin:10px;
+}
+h4{
+    font-weight:bold;
+    margin: 0px;
+    margin-bottom: 26px;
+}
+.page_title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+
+user agent stylesheeth1 {
+    display: block;
+    font-size: 2em;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.COF{
+    display: none;
+}
+
+.bricklet {
+    color: white;
+    background: #004977;
+    border-radius: 3px;
+    box-shadow: 0px 1px 3px #808080;
+    float: left;
+    padding: 20px 20px;
+    position: relative;
+    width: 96%;
+    margin-bottom: 30px;
+    max-width: 300px;
+    margin-right: 30px;
+    text-align: center;
+    left: 0;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.bricklet2 {
+    color: white;
+    background: #004977;
+    border-radius: 3px;
+    box-shadow: 0px 1px 3px #808080;
+    float: left;
+    padding: 27px 27px;
+    position: relative;
+    width: 96%;
+    margin-bottom: 30px;
+    max-width: 700px;
+    margin-right: 30px;
+    text-align: center;
+    left: 0;
+    cursor: pointer;
+    border: 1px solid black;
+    min-width:700px;
+}
+
+.rewardsBalance {
+    padding-top: 10px;
+    font-weight: normal;
+
+}
+.acct_num{
+    font-weight: normal;
+}
+
+h5 {
+    margin:auto;
+}
+
+li {
+    list-style: none;
+    text-align: left;
+    padding-top: 2px;
+}
+
+.left{
+    display: block;
+    float: left;
+    width: 250px;
+    text-align: left;
+    margin-left: 40px;
+}
+
+.right{
+    text-align: left;
+    display: block;
+    float: right;
+    width: 250px;
+    margin-right: 0px;
+}
+
+#purchasing_power {
+    font-size: 12pt;
+    text-decoration: underline;
+    margin-bottom:-7px;
+    margin-top: 30px;
+
+}
+
+.detail_list {
+    border-color: transparent;
+}
+
+.card_type {
+    display: inline-block;
+    width: 50%;
+    text-align: right;
+}
+
+ul {
+    padding-left: 0px;
+}
+.name {
+    text-align: left;
+    display: inline-block;
+    width: 50%;
+}
+
+#rewardsBalance {
+    padding-top: 10px;
+}
+
+.check{
+    font-weight:bold;
+    color:#0ea218;
+}
+
+.x{
+    font-weight:bold;
+    color:#d03027;
+}
+.log_out {
+    background: url(/img/global_sprite.png) no-repeat -4px -26px;
+    color: black;
+    text-decoration: none;
+}
+
+#logout {
+    margin-left: 70%;
+    cursor: pointer; 
+    cursor: hand;
+}
+.log_out:hover{
+    text-decoration: underline;
+}
+
+.row{
+    font-weight: normal;
+    font-size:12pt;
+}
+
+.row:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+.opp_title {
+    padding-top: 15px;
+    padding-bottom: 6px;
+    font-weight: bold;
+}
+.loading-image{
+    position:fixed;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    z-index:9999;
+    background: url(/img/page-loader.gif) center no-repeat;
+}
+#col-1{
+    width:20%;
+    float: left;
+    margin-left: 41px;
+
+}
+#col-2{
+    width:30%;
+    float: left;
+}
+#col-3{
+    width:26%;
+    float: left;
+}
+#col-4{
+    width:9%;
+    float: left;
+}
+#col-5{
+    width:42%;
+    float: left;
+    text-align: left;
+    margin-left: 17px;
+}
+#col-6{
+    width: 6%;
+    float: left;
+}
+#col-7{
+    width: 35%;
+    float: right;}
+
+#col-8{
+    width: 40%;
+    float: left;
+    margin-left: 35px;
+}
+#col-9{
+    width: 32%;
+    float: left;
+}
+#col-10{
+    width:21%;
+    float: left;
+}
+#col-11{
+    width:25%;
+    float: left;
+}
+
+/*
+    File name: index.css
+    Description: 
+
+    Copyright 2016 Capital One Services, LLC
+     
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+     
+        http://www.apache.org/licenses/LICENSE-2.0
+     
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and limitations under the License.
+    */
