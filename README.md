@@ -7,16 +7,10 @@ This is version 1.0 of the Rewards API Reference Application Code.
 
 ## Build/Install Instructions
 
-1. Download and install [Node] 
-2. Replace properties in config.js with values recieved from the developer portal. <Link needed>
-3. Enter below commands
-```sh
-$ npm install
-$ npm install bower -g
-$ bower install
-$ node app.js
-```
-4.Navigate to http://localhost:3000/ in your browser
+1. Download and install [Node]
+2. Run `npm install` at the root folder to download dependencies
+3. Run `node app.js` to start the application
+4. Navigate to http://localhost:3000/ in your browser
 
 ## Roadmap
 This reference app code is intended as a starting place for developers who want to use the Rewards API. As such, it will be updated with new functionality only when the Rewards API is updated with new functionality.
