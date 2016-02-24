@@ -16,19 +16,7 @@ $ npm install bower -g
 $ bower install
 $ node app.js
 ```
-
-[node]:<https://nodejs.org>
-[express]: <http://expressjs.com>
-[node.js]: <http://nodejs.org>
-[jQuery]: <http://jquery.com>
-[tunnel]: <https://www.npmjs.com/package/tunnel>
-[log4js]: <https://www.npmjs.com/package/log4js>
-[simple-oauth2]: <https://www.npmjs.com/package/simple-oauth2>
-
-## Architecture
-* [node.js] - evented I/O for the backend
-* [Express] - fast node.js network app framework
-* [simple-oauth2] - Oauth 2.0 library
+4.Navigate to http://localhost:3000/ in your browser
 
 ## Roadmap
 This reference app code is intended as a starting place for developers who want to use the Rewards API. As such, it will be updated with new functionality only when the Rewards API is updated with new functionality.
@@ -36,3 +24,4 @@ This reference app code is intended as a starting place for developers who want 
 ## Contribution Guidelines
 We encourage any contributions that align with the intent of this project and add more functionality or languages that other developers can make use of. To contribute to the project, please submit a PR for our review. Before contributing any source code, familiarize yourself with the Apache License 2.0 (license.md), which controls the licensing for this project.
 
+[node]:<https://nodejs.org>
