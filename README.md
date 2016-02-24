@@ -14,7 +14,7 @@ This is version 1.0 of the Rewards API Reference Application Code.
 $ npm install
 $ npm install bower -g
 $ bower install
-$ gulp
+$ node app.js
 ```
 
 [node]:<https://nodejs.org>
