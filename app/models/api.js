@@ -3,48 +3,48 @@ var config = require('../../config/config');
 var request = require('request');
 
 var oauth2 = require('simple-oauth2')({
-clientID: config.CLIENT_ID,
-clientSecret: config.CLIENT_SECRET,
-site: config.OAUTH_URI,
-tokenPath: '/oauth/oauth20/token',
-authorizationPath: '/oauth/auz/authorize' 
+    clientID: config.CLIENT_ID,
+    clientSecret: config.CLIENT_SECRET,
+    site: config.OAUTH_URI,
+    tokenPath: '/oauth/oauth20/token',
+    authorizationPath: '/oauth/auz/authorize' 
 });
 
 var authorization_uri = oauth2.authCode.authorizeURL({
-redirect_uri: config.REDIRECT_URI,
-scope: 'openid read_rewards_account_info'
+    redirect_uri: config.REDIRECT_URI,
+    scope: 'openid read_rewards_account_info'
 });
 
 var exports = module.exports = {};
 
+// Return the authorization endpoint uri
 exports.getAuthURL = function() {
 	return authorization_uri;
 };
 
-exports.processCode = function(req, res) {
-	var code = req.query.code; 
+// Exchange access code for bearer token
+exports.processCode = function(code, cb) {
     oauth2.authCode.getToken({ code: code, redirect_uri: config.REDIRECT_URI}, function(error, result) {
         if (error) {
-            console.log('Access Token Error', error.message);
-            return res.status(403).render('error', {error: 'Invalid authorization code.'});
+            return cb('Invalid authorization code.');
         }
         token = oauth2.accessToken.create(result);
-        req.session.token=token.token.access_token;
-        res.render('loading');
+        return cb(null, token.token.access_token);
     });
 };
 
-exports.getAcctSummary = function(app_res,  accessToken) {
+// Call rewards summary API endpoint
+exports.getAcctSummary = function(accessToken, cb) {
 
-    var acctInfo = [];
-    var numAccts;
-    var acct_req = request.get('https://apiprodmirror.capitalone.com/rewards/accounts', {
-        'auth': {'bearer': accessToken}
-        }).on('response', onSummaryResponse);
+    var acct_req = request
+    .get(config.OAUTH_URI + '/rewards/accounts', {'auth': {'bearer': accessToken}})
+    .on('error', function(err) {
+        return cb(err);
+    })
+    .on('response', onSummaryResponse);
 
     function onSummaryResponse(res) {
         var dataBody = '';
-
         res.setEncoding('utf8');
         res.on('data', function (chunk) {
             console.log('****Response from rewards summary: ' + chunk + '\n');
@@ -52,47 +52,22 @@ exports.getAcctSummary = function(app_res,  accessToken) {
         });
 
         res.on('end', function () {
-            if (res.statusCode === 200) {
-                var accts = JSON.parse(dataBody);
-                numAccts = accts.rewardsAccounts.length;
-                for(var acctIndex=0; acctIndex < numAccts; acctIndex++ ) {
-                    var refId = encodeURIComponent(accts.rewardsAccounts[acctIndex].rewardsAccountReferenceId);
-                    exports.getAcctDetail(accessToken, refId, onAcctDetailResponse); 
-                }
-            } else {
-                console.log('Received error: ' + res.statusCode);
-                return app_res.status(500).render('error', {error: 'Summary API experienced a problem.'});
+            if (res.statusCode !== 200) {
+                return cb('Summary API experienced a problem.');               
             }
+            return cb(null, JSON.parse(dataBody));
         });
     }
-
-    function onAcctDetailResponse(detailRes, data) {
-        if (detailRes.statusCode === 200) {
-            acctInfo.push(JSON.parse(data));
-            if(acctInfo.length === numAccts) {
-                app_res.setHeader('cache-control', 'no-cache, no-store, max-age=0, must-revalidate');
-                return app_res.render('account-summary', { data: acctInfo});   
-            }
-        } else {
-            console.log('Recieved error: ' + detailRes.statusCode);
-            return app_res.status(500).render('error', {error: 'Detail API experienced a problem.'});
-        }
-    }
-
-    acct_req.on('error', function(e) {
-        console.log('error: ');
-        console.log(e);
-        app_res.send('Error calling API. Please try again.');
-    });
 };
 
+// Call rewards details API endpoint
 exports.getAcctDetail = function( accessToken, ref_id, cb) {
 
-    console.log('Retrieving account info for: ' + ref_id);
-
-    var acct_req = request.get('https://apiprodmirror.capitalone.com/rewards/accounts/' + ref_id, {
-    'auth': {'bearer': accessToken}
-    }).on('response', onDetailResponse);
+    var acct_req = request.get(config.OAUTH_URI + '/rewards/accounts/' + ref_id, {'auth': {'bearer': accessToken}})
+    .on('error', function(err) {
+        return cb(err);
+    })
+    .on('response', onDetailResponse);
 
     function onDetailResponse(res) {
         var dataBody = '';
@@ -102,13 +77,12 @@ exports.getAcctDetail = function( accessToken, ref_id, cb) {
             dataBody += chunk;
         });
         res.on('end', function () {
-            cb(res,dataBody);
-            });
-        }
-
-       acct_req.on('error', function(e) {
-        console.log(e);
-    });
+            if (res.statusCode !== 200) {
+                return cb('Detail API experienced a problem.');               
+            }
+            return cb(null, JSON.parse(dataBody));
+        });
+    }
 };
 
  /*

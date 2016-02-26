@@ -15,24 +15,48 @@ router.get('/auth', function (req, res) {
 });
 
 router.get('/authredirect',function(req,res) {
-    if (Object.keys(req.query).length) {
-        api.processCode(req,res);
-    } else {
-        console.warn('Did not receive code in query');
+    if (!Object.keys(req.query).length) {
         return res.status(401).render('error', {error: 'Did not receive authorization code.'});
     }
+    var code = req.query.code; 
+    api.processCode(code, function(err, token) {
+        if(err){
+            return res.status(403).render('error', {error: 'Invalid authorization code.'});
+        }
+        req.session.token=token;
+        res.render('loading');
+    });
 });
 
 router.get('/accountSummary',function(req,res) {
-    if(req.session.token) {
-        api.getAcctSummary(res,req.session.token);
-    } else {
+    var acctInfo = [];
+    var numAccts;
+    if(!req.session.token) { 
         return res.status(403).render('error', {error: 'You must grant access to see this page.'});
     }
-});
+    api.getAcctSummary(req.session.token, function(err, accts) {
+        if(err) {
+            res.status(500).render('error', {error: err});
+        }
+        numAccts = accts.rewardsAccounts.length;
+        for(var acctIndex=0; acctIndex < numAccts; acctIndex++ ) {
+            var refId = encodeURIComponent(accts.rewardsAccounts[acctIndex].rewardsAccountReferenceId);
+            api.getAcctDetail(req.session.token, refId, onDetailResponse);
+        }
+
+        function onDetailResponse(err, acct_detail) {
+            if(err) { 
+                return res.status(500).render('error', {error: err});
+            }
+            acctInfo.push(acct_detail);
+            if(acctInfo.length === numAccts) {
+                return res.render('account-summary', { data: acctInfo}); 
+            }
+        }
+    });
+});        
 
 router.get('/logout',function (req, res) {
-    console.log('logout request');
     req.session.destroy();
     res.status(200).send('logged out');
 });
