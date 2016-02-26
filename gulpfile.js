@@ -31,15 +31,7 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-// configure which files to watch and what tasks to use on file changes
-gulp.task('watch', function() {
-  gulp.watch('app/**/*.js', ['jshint']);
-});
-
-
-gulp.task('default', [
-  'develop', 'watch'
-]);
+gulp.task('default', ['develop', 'jshint']);
 
  /*
 File name: gulpfile.js
