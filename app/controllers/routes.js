@@ -36,7 +36,7 @@ router.get('/accountSummary',function(req,res) {
     }
     api.getAcctSummary(req.session.token, function(err, accts) {
         if(err) {
-            res.status(500).render('error', {error: err});
+            return res.status(500).render('error', {error: err});
         }
         numAccts = accts.rewardsAccounts.length;
         for(var acctIndex=0; acctIndex < numAccts; acctIndex++ ) {

@@ -7,7 +7,11 @@ var oauth2 = require('simple-oauth2')({
     clientSecret: config.CLIENT_SECRET,
     site: config.OAUTH_URI,
     tokenPath: '/oauth/oauth20/token',
-    authorizationPath: '/oauth/auz/authorize' 
+    authorizationPath: '/oauth/auz/authorize',
+    headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent':'curl/7.43.0'
+            }
 });
 
 var authorization_uri = oauth2.authCode.authorizeURL({
@@ -19,7 +23,7 @@ var exports = module.exports = {};
 
 // Return the authorization endpoint uri
 exports.getAuthURL = function() {
-	return authorization_uri;
+    return authorization_uri;
 };
 
 // Exchange access code for bearer token
@@ -37,7 +41,7 @@ exports.processCode = function(code, cb) {
 exports.getAcctSummary = function(accessToken, cb) {
 
     var acct_req = request
-    .get(config.OAUTH_URI + '/rewards/accounts', {'auth': {'bearer': accessToken}})
+    .get(config.OAUTH_URI + '/rewards/accounts', {'auth': {'bearer': accessToken}, 'headers':{'User-Agent':'curl/7.43.0'}})
     .on('error', function(err) {
         return cb(err);
     })
@@ -63,7 +67,7 @@ exports.getAcctSummary = function(accessToken, cb) {
 // Call rewards details API endpoint
 exports.getAcctDetail = function( accessToken, ref_id, cb) {
 
-    var acct_req = request.get(config.OAUTH_URI + '/rewards/accounts/' + ref_id, {'auth': {'bearer': accessToken}})
+    var acct_req = request.get(config.OAUTH_URI + '/rewards/accounts/' + ref_id, {'auth': {'bearer': accessToken}, 'headers':{'User-Agent':'curl/7.43.0'}})
     .on('error', function(err) {
         return cb(err);
     })
