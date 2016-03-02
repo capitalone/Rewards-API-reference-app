@@ -9,6 +9,7 @@ var compress = require('compression');
 var methodOverride = require('method-override');
 var session = require('express-session')
 var uuid = require('uuid');
+var helmet = require('helmet');
 
 module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
@@ -19,6 +20,7 @@ module.exports = function(app, config) {
   app.set('view engine', 'ejs');
 
   // app.use(favicon(config.root + '/public/img/favicon.ico'));
+  app.use(helmet());
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
@@ -28,11 +30,17 @@ module.exports = function(app, config) {
   app.use(compress());
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
+  var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 Hour
   app.use(session({
     genid: function(req) {
       return uuid.v4(); // use UUIDs for session IDs 
     },
-    secret: config.SESSION_SECRET
+    secret: config.SESSION_SECRET,
+    name: 'sessionId',
+    resave: true,
+    saveUninitialized: true,
+    cookie: { expires: expiryDate
+            }
   }));
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
