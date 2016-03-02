@@ -65,19 +65,22 @@
 									travel += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>';
 								}
 								//Tiered travel
-							if(opp.hasOwnProperty('tierMinCashValue')){
-									//All but the last tier
-								if(opp.hasOwnProperty('tierMaxCashValue')){
-										//First tier only
-									if(opp.tierMinCashValue=="0.01"){
-										travel += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
-
-									} else{
-										travel += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
+							if(opp.hasOwnProperty('tierMinCashValue')){									
+									//First tier only
+								if(opp.tierMinCashValue=="0.01"){
+									var max_cash=opp.cashValue;
+									if(opp.tierMaxCashValue < opp.cashValue){
+										max_cash=opp.tierMaxCashValue;
 									}
-								} else {
-									travel += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to ' + opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
-								}
+									travel += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + max_cash +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									//not first tier
+								} else{
+									var max_cash=opp.cashValue;
+									if(opp.tierMaxCashValue < opp.cashValue){
+										max_cash=opp.tierMaxCashValue;
+									}
+									travel += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to $' + max_cash +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
+								}								
 							} else{
 								travel += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
 							}
@@ -88,17 +91,22 @@
 							}
 								//Tiered giftcard
 							if(opp.hasOwnProperty('tierMinCashValue')){
-									//All but the last tier
-								if(opp.hasOwnProperty('tierMaxCashValue')){
-										//First tier only
-									if(opp.tierMinCashValue=="0.01"){
-										giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
-									} else {
-										giftcard += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to $' + opp.tierMaxCashValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									//First tier only
+								if(opp.tierMinCashValue=="0.01"){
+									var max_cash=opp.cashValue;
+									if(opp.tierMaxCashValue < opp.cashValue){
+										max_cash=opp.tierMaxCashValue;
 									}
+									giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + max_cash +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									//not first tier
 								} else {
-									giftcard += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to ' + opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
+									var max_cash=opp.cashValue;
+									if(opp.tierMaxCashValue < opp.cashValue){
+										max_cash=opp.tierMaxCashValue;
+									}
+									giftcard += '<div class="row"> <div id="col-8"> <li></li> </div> <div id="col-9"> <li>$'+ opp.tierMinCashValue + ' to $' + max_cash +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
 								}
+								//Non-tiered giftcard
 							} else{
 								giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
 							}

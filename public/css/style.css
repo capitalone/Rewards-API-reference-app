@@ -32,25 +32,25 @@ body {
 
 #login-button {
     -webkit-appearance:none;
+    background: url("/img/ConnectWithCapitalOne_Blue.png") no-repeat scroll 0 0 transparent;
     margin:auto;
     display: block;
     cursor: pointer;
-    background: #128020;
     border: none;
     border-radius: 3px;
-    padding: 0.75em 1em;
-    width: 100%;
     color: #fff !important;
     text-align: center;
     text-decoration: none;
     text-shadow: none;
     font-size: 1em;
     font-family: "Proxima Nova Regular",Arial,Helvetica,sans-serif;
-    max-width: 250px;
+    height: 52px;
+    width: 268px;
+    background-size: 100%;
+    margin-top: 54px;
 }
 #login-button:hover, #login-button:focus {
-    background: #004D00;
-    text-decoration: none;
+    opacity: .8;
 }
 
 #body {
