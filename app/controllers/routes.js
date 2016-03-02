@@ -53,7 +53,7 @@ router.get('/accountSummary',function(req,res) {
             if(acctInfo.length === numAccts) {
                 util.renderHTML(acctInfo, function(err, summaryDisplay, detailDispaly, name) {
                     return res.render('account-summary', { summary: summaryDisplay, detail: detailDispaly, name: name}); 
-                })
+                });
             }
         }
     });

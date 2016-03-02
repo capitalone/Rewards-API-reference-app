@@ -14,7 +14,7 @@ exports.renderHTML = function(data, cb) {
 		var giftcard="";
 		var charity="";
 		var rewardsCurrency = data[i].rewardsCurrency;
-		var ifcash = ""
+		var ifcash = "";
 		if(rewardsCurrency == "Cash") ifcash="$";
 
 		var acct='<li class="bricklet COF" id="'+i+'" onclick="toggle_display('+i+')"><h3><div class="Description">' + data[i].accountDisplayName.slice(0,-5) + '</div></h3><h4><div class="acct_num">XXXX-XXXX-XXXX-'+data[i].accountDisplayName.slice(-4)+'</div><div class="rewardsBalance">Balance: ' + ifcash + nwc(data[i].rewardsBalance) + ' ' + rewardsCurrency + '</div></h4><h5><span class="name">' + data[i].primaryAccountHolder.firstName + ' ' + data[i].primaryAccountHolder.lastName + '</span><span class="card_type">' + data[i].creditCardAccount.network + '</h5></li>';
@@ -23,24 +23,24 @@ exports.renderHTML = function(data, cb) {
 			purchasingPower="Purchasing Power";
 			var opp = data[i].redemptionOpportunities[x];
 			if(opp.category == 'Cash'){
-				if (cash == "" && x==0){
+				if (cash === "" && x === 0){
 						cash += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6"> Value </div> <div id="col-7"> ' + rewardsCurrency + ' or Rate </div> </div>';
-					} else if (cash == ""){
+					} else if (cash === ""){
 						cash += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>';
 					}
 				cash += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> </div>';
 			}
 
 			else if(opp.category == 'Travel'){
-				if (travel == "" && x==0){
+				if (travel === "" && x === 0){
 						travel += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6"> Value </div> <div id="col-7"> ' + rewardsCurrency + ' or Rate </div> </div>';
-					} else if (travel == ""){
+					} else if (travel === ""){
 						travel += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>';
 					}
 				//Tiered travel
 				if(opp.hasOwnProperty('tierMinCashValue')){									
 					//First tier only
-					if(opp.tierMinCashValue=="0.01"){
+					if(opp.tierMinCashValue === 0.01){
 						travel += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + __.min([opp.cashValue,opp.tierMaxCashValue]) +'</li> </div> <div id="col-10"> <li>' + nwc(opp.redemptionAmount) +' ' + rewardsCurrency + '</li> </div> <div id="col-11"> <li></li> </div> </div>';
 					//not first tier
 					} else{
@@ -55,13 +55,13 @@ exports.renderHTML = function(data, cb) {
 
 			else if(opp.category == 'GiftCard'){
 				//if top row
-				if (giftcard == ""){
-					giftcard += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>'
+				if (giftcard === ""){
+					giftcard += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7"> </div> </div>';
 				}
 				//Tiered giftcard
 				if(opp.hasOwnProperty('tierMinCashValue')){
 					//First tier only
-					if(opp.tierMinCashValue=="0.01"){
+					if(opp.tierMinCashValue === 0.01){
 						giftcard += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>Up to $' + __.min([opp.cashValue,opp.tierMaxCashValue]) +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
 					//not first tier
 					} else {
@@ -73,8 +73,8 @@ exports.renderHTML = function(data, cb) {
 				}
 			}
 			else if(opp.category=='Charity'){
-			if (charity == ""){
-					charity += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7">  </div> </div>'
+			if (charity === ""){
+					charity += '<div class="row opp_title" > <div id="col-5"> '+ opp.categoryDescription + ' </div> <div id="col-6">  </div> <div id="col-7">  </div> </div>';
 				}
 				charity += '<div class="row"> <div id="col-8"> <li>'+ opp.subcategoryDescription +'</li> </div> <div id="col-9"> <li>'+ opp.cashDisplayValue +'</li> </div> <div id="col-10"> <li>1 / $' + opp.redemptionRate +'</li> </div> <div id="col-11"> <li></li> </div> </div>';
 			}
@@ -94,12 +94,12 @@ exports.renderHTML = function(data, cb) {
 
 	function img(bool){
 		if(bool){
-			return 'class=check> &#10003'
+			return 'class=check> &#10003';
 		} else {
-			return 'class=x> &#10005'
+			return 'class=x> &#10005';
 		}
 	}
-}
+};
 
 
 
