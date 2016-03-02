@@ -23,7 +23,7 @@ var exports = module.exports = {};
 
 // Return the authorization endpoint uri
 exports.getAuthURL = function() {
-    return authorization_uri;
+	return authorization_uri;
 };
 
 // Exchange access code for bearer token

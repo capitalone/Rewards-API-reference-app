@@ -1,6 +1,7 @@
 var express = require('express'),
   router = express.Router(),
   api = require('../models/api');
+  util = require('../models/util');
 
 module.exports = function (app) {
   app.use('/', router);
@@ -50,7 +51,9 @@ router.get('/accountSummary',function(req,res) {
             }
             acctInfo.push(acct_detail);
             if(acctInfo.length === numAccts) {
-                return res.render('account-summary', { data: acctInfo}); 
+                util.renderHTML(acctInfo, function(err, summaryDisplay, detailDispaly, name) {
+                    return res.render('account-summary', { summary: summaryDisplay, detail: detailDispaly, name: name}); 
+                })
             }
         }
     });

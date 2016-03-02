@@ -17,7 +17,6 @@
     "README.md"
   ],
   "dependencies": {
-    "jquery-timeago": "^1.5.2",
     "jquery": "^2.2.0"
   }
 }
