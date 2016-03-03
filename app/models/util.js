@@ -4,11 +4,11 @@ var __ = require('underscore');
 var exports = module.exports = {};
 
 exports.renderHTML = function(data, cb) {
-	var purchasingPower="";
 	var summary = [];
 	var detail = [];
 
 	for(i=0; i< data.length; i++){
+		var purchasingPower="";
 		var cash="";
 		var travel="";
 		var giftcard="";
