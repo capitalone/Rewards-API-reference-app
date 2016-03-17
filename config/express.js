@@ -37,8 +37,8 @@ module.exports = function(app, config) {
     },
     secret: config.SESSION_SECRET,
     name: 'sessionId',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: { expires: expiryDate
             }
   }));
