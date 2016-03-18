@@ -30,7 +30,6 @@ module.exports = function(app, config) {
   app.use(compress());
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
-  var expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 Hour
   app.use(session({
     genid: function(req) {
       return uuid.v4(); // use UUIDs for session IDs 
@@ -38,9 +37,7 @@ module.exports = function(app, config) {
     secret: config.SESSION_SECRET,
     name: 'sessionId',
     resave: false,
-    saveUninitialized: false,
-    cookie: { expires: expiryDate
-            }
+    saveUninitialized: false
   }));
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
