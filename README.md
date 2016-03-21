@@ -7,7 +7,7 @@ This is version 1.0 of the Rewards API Reference Application Code.
 ## Build/Install Instructions
 1. Download and install [Node]
 2. Run `npm install` at the root folder to download dependencies
-3. Update `config/config.js` with the properties received from the developer portal
+3. Update `config/config.js.sample` with the properties received from the developer portal and rename to `config/config.js`
 3. Run `node app.js` to start the application
 4. Navigate to http://localhost:3000/ in your browser
  
