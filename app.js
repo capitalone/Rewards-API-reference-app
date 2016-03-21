@@ -1,16 +1,3 @@
-
-
-var express = require('express'),
-  config = require('./config/config');
-
-var app = express();
-
-require('./config/express')(app, config);
-
-app.listen(config.port, function () {
-  console.log('Express server listening on port ' + config.port);
-});
-
  /*
 File name: app.js
 Description: Top level coordinator for external rewards reference application.
@@ -28,3 +15,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 */
+
+var express = require('express'),
+  config = require('./config/config');
+
+var app = express();
+
+require('./config/express')(app, config);
+
+app.listen(config.port, function () {
+  console.log('Express server listening on port ' + config.port);
+});
