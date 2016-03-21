@@ -48,7 +48,7 @@ exports.getAuthURL = function() {
 exports.processCode = function(code, cb) {
     oauth2.authCode.getToken({ code: code, redirect_uri: config.REDIRECT_URI}, function(error, result) {
         if (error) {
-            return cb('Invalid authorization code.');
+            return cb('Invalid authorization code. Please try logging in again.');
         }
         token = oauth2.accessToken.create(result);
         return cb(null, token.token.access_token);
@@ -74,8 +74,11 @@ exports.getAcctSummary = function(accessToken, cb) {
         });
 
         res.on('end', function () {
+            if (res.statusCode === 403) {
+                return cb('Access denied due to customer or account standing.');
+            }
             if (res.statusCode !== 200) {
-                return cb('Summary API experienced a problem.');               
+                return cb('Summary API experienced a problem. Please try logging in again.');               
             }
             return cb(null, JSON.parse(dataBody));
         });
@@ -100,7 +103,7 @@ exports.getAcctDetail = function( accessToken, ref_id, cb) {
         });
         res.on('end', function () {
             if (res.statusCode !== 200) {
-                return cb('Detail API experienced a problem.');               
+                return cb('Detail API experienced a problem. Please try logging in again.');               
             }
             return cb(null, JSON.parse(dataBody));
         });
