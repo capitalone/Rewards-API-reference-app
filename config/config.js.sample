@@ -16,6 +16,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 */
 
+/*
+ * Copy this file to config.js and enter your configuration info.
+ * config.js should not be under version control since it contains your
+ * client_id and client_secret.
+ */
+
 var path = require('path'),
     rootPath = path.normalize(__dirname + '/..'),
     env = process.env.NODE_ENV || 'development';
