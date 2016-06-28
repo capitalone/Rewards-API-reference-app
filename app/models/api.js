@@ -23,7 +23,7 @@ var request = require('request');
 var oauth2 = require('simple-oauth2')({
     clientID: config.CLIENT_ID,
     clientSecret: config.CLIENT_SECRET,
-    site: config.OAUTH_URI,
+    site: config.BASE_URI,
     tokenPath: '/oauth/oauth20/token',
     authorizationPath: '/oauth/auz/authorize',
     headers: {
@@ -59,7 +59,7 @@ exports.processCode = function(code, cb) {
 exports.getAcctSummary = function(accessToken, cb) {
 
     var acct_req = request
-    .get(config.OAUTH_URI + '/rewards/accounts', {'auth': {'bearer': accessToken}, 'headers':{'User-Agent':'curl/7.43.0'}})
+    .get(config.BASE_URI + '/rewards/accounts', {'auth': {'bearer': accessToken}, 'headers':{'User-Agent':'curl/7.43.0'}})
     .on('error', function(err) {
         return cb(err);
     })
@@ -88,7 +88,7 @@ exports.getAcctSummary = function(accessToken, cb) {
 // Call rewards details API endpoint
 exports.getAcctDetail = function( accessToken, ref_id, cb) {
 
-    var acct_req = request.get(config.OAUTH_URI + '/rewards/accounts/' + ref_id, {'auth': {'bearer': accessToken}, 'headers':{'User-Agent':'curl/7.43.0'}})
+    var acct_req = request.get(config.BASE_URI + '/rewards/accounts/' + ref_id, {'auth': {'bearer': accessToken}, 'headers':{'User-Agent':'curl/7.43.0'}})
     .on('error', function(err) {
         return cb(err);
     })
