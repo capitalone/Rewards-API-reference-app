@@ -75,7 +75,7 @@ exports.getAcctSummary = function(accessToken, cb) {
 
         res.on('end', function () {
             if (res.statusCode === 403) {
-                return cb('Access denied due to customer or account standing.');
+                return cb('Access denied due to customer or account standing. Please login to online account for more information.');
             }
             if (res.statusCode !== 200) {
                 return cb('Summary API experienced a problem. Please try logging in again.');               
