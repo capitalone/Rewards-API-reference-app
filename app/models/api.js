@@ -34,7 +34,7 @@ var oauth2 = require('simple-oauth2')({
 
 var authorization_uri = oauth2.authCode.authorizeURL({
     redirect_uri: config.REDIRECT_URI,
-    scope: 'openid read_rewards_account_info'
+    scope: 'read_rewards_account_info'
 });
 
 var exports = module.exports = {};
