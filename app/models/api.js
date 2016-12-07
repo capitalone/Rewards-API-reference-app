@@ -24,8 +24,8 @@ var oauth2 = require('simple-oauth2')({
     clientID: config.CLIENT_ID,
     clientSecret: config.CLIENT_SECRET,
     site: config.BASE_URI,
-    tokenPath: '/oauth/oauth20/token',
-    authorizationPath: '/oauth/auz/authorize',
+    tokenPath: '/oauth2/token',
+    authorizationPath: '/oauth2/authorize',
     headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'User-Agent':'curl/7.43.0'
