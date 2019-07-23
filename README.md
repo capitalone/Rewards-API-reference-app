@@ -1,4 +1,8 @@
+# Capital One built this project to help the users of this API. We are no longer actively enhancing this API. We have archived the project as of Jul 23 2019 where it will be available in a read-only state. 
+
 # Rewards API Reference Application Code
+
+
 The Rewards API provides the ability to access a Capital One customer’s Rewards account balance, help them set and track to their savings goals, and enable insights to a customer’s “purchasing power” over a variety of available redemption opportunities.
 
 ## Software Requirements Including version
